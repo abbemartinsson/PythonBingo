@@ -1,75 +1,62 @@
 import random
 
-random_number = []
+playerCard = []
+compCard = []
+cardSize = 5
 
-for _ in range (25):
+def printCard(card):
+    for i in range(5):
+        print(card[i*cardSize:(i+1)*cardSize])
+
+while len(compCard) < 25:
+    compInput = random.randint(1, 75)
+    if compInput not in compCard:
+        compCard.append(compInput)
+
+printCard(compCard)
+
+for i in range (1,26):
     while True:
-        random_tal = random.randint(0,75)
-        if random_tal not in random_number:
-            random_number.append(random_tal)
-            break
-        else:
-            continue
+        try:
+            playerInput = int(input(f"skriv in 25 nummer mellan 1 och 75, {i}/25: "))
+            if 1<= playerInput <=75:
+                if playerInput not in playerCard:
+                    playerCard.append(playerInput)
+                    break
+                else:
+                    print("Du har redan valt detta nummret, skriv ett nytt")
+            else:
+                print("Skriv ett nummer mellan 1 och 75!")
+        except ValueError:
+            print("Skriv ett giltigt nummer!")
 
-dator_bricka = [random_number[i:i+5] for i in range (0,25,5)]
+print(f"Här är dina nummer:")
+printCard(playerCard)
+print(f"Här är datorns kort:")
+printCard(compCard)
 
+def winCheck(card, playerNumbers):
+    for i in range(cardSize):
+        if all(card[i * cardSize + j] in playerNumbers for j in range(cardSize)):
+            return True
+    for i in range(cardSize):
+        if all(card[j * cardSize + i] in playerNumbers for j in range(cardSize)):
+            return True
+    if all(card[i * (cardSize + 1)] in playerNumbers for i in range(cardSize)):
+        return True
+    if all(card[(i + 1) * (cardSize - 1)] in playerNumbers for i in range(cardSize)):
+        return True
+    return False
 
-spelar_bricka = []
-for i in range (0,25)
-  spelar_number = int(input (f"välj 25 nummer som du vill ha på din bricka {i+1} / 25"))
-  if 1 <= tal <= 75
-    if spelar_number not in 
+playerBingo = False
 
+playerNumbers = set(playerCard)
 
-spelar_number = [random.randint(0,75) for _ in range(25)]
+if winCheck(compCard, playerNumbers):
+        playerBingo = True
 
-spelar_bricka = [spelar_number[i:i+5] for i in range(0, 25, 5)]
-
-
-
-  
-
-
-rättnings_matris = []
-
-
-for i  in  range(0,25):
-    input (f"tryck för att byta nummer: {i+1} av 25!")
-    if random_number[i] in spelar_number:
-        print ("match")
-        random_number[i] = "x"
-        rättnings_matris.append("x")
-    else:
-        rättnings_matris.append (random_number[i])
-
-
-for i in range(5):
-    if all(element == "x"for element in random_number):
-        bingo = True
-        break
-    else:
-        bingo = False
-        continue
-
-
-
-if rättnings_matris.count("x") >= 1:
-  bingo = True
+if playerBingo:
+    print("Du har bingo!")
+    
 else:
-  bingo = False
-
-
-print ("dator_bricka")
-for row in dator_bricka:
-    print (row)
-
-print ("Spelare Bricka")
-for row in spelar_bricka:
-    print(row)
-
-
-print("dator bricka rad 1")
-print (*dator_bricka[0])
-
-if bingo == True:
-    print ("bingo")
+    print("Du har inte bingo")
