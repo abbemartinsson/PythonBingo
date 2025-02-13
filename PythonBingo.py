@@ -13,8 +13,6 @@ while len(compCard) < 25:
     if compInput not in compCard:
         compCard.append(compInput)
 
-printCard(compCard)
-
 for i in range (1,26):
     while True:
         try:
@@ -30,9 +28,9 @@ for i in range (1,26):
         except ValueError:
             print("Skriv ett giltigt nummer!")
 
-print(f"Här är dina nummer:")
+print(f"\nHär är dina nummer:")
 printCard(playerCard)
-print(f"Här är datorns kort:")
+print(f"\nHär är datorns kort:")
 printCard(compCard)
 
 def winCheck(card, playerNumbers):
